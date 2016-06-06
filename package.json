@@ -1,0 +1,22 @@
+{
+  "name": "dppush",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devWayne/dependencies-push.git"
+  },
+  "author": "Jarvan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/devWayne/dependencies-push/issues"
+  },
+  "homepage": "https://github.com/devWayne/dependencies-push#readme",
+  "devDependencies": {
+    "nl-clilog": "~1.1.1"
+  }
+}
