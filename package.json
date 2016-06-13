@@ -18,5 +18,8 @@
   "homepage": "https://github.com/devWayne/dependencies-push#readme",
   "devDependencies": {
     "nl-clilog": "~1.1.1"
+  },
+  "dependencies": {
+    "log4js": "~0.6.36"
   }
 }

@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+
+var exec = require('child_process').execSync;
+const Parse = require('../lib/parse');
+const Workflow = require('../workflow');
+
+
+
+var data = Parse('pushConfig.json');
+Workflow.updateAllSvn(data.gitList,data.muiInfo,data.svnBranch);
+
