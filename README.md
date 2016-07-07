@@ -3,7 +3,9 @@
 ```
 $sudo tnpm i -g dppush
 ```
+## 使用前注意事项
 
+- 确保拥有所有需要升级的频道页仓库权限
 
 ## 使用方式
 
@@ -19,10 +21,27 @@ $sudo tnpm i -g dppush
         "name": "chaoshi-liangfan",
         "version": "3.0.1"
     }],
+
+    /*
+     * 单个组件升级
     "muiInfo": {
         "name": "mui/chaoshi-base",
         "version": "4.2.34"
     },
+    */
+
+    /*
+     * 组件列表升级
+     * /
+    "muiInfo": [{
+        "name": "mui/chaoshi-base",
+        "version": "4.2.39"
+    }, {
+        "name": "mui/crossimage",
+        "version": "4.0.22"
+    }],
+
+
     "svnBranch": "http://svn.app.taobao.net/repos/tmallwap/branches/20160606_695855_gulptest_1/"
 }
 ```
@@ -42,4 +61,4 @@ $sudo tnpm i -g dppush
 
 ## TodoList
 - `muiInfo`支持数组，同时可升级多个组件
-- 纵向依赖分析，组件升级
+- 纵向依赖分析，组件升升级
