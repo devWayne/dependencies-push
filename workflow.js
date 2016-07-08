@@ -11,6 +11,35 @@ const Map = require('promise.map');
 
 module.exports = {
 
+    pushPublish: function(chaoshi) {
+        var chaoshiVersion, chaoshiName, chaoshiInfo;
+        if (typeof chaoshi == 'string') {
+            chaoshiName = chaoshi;
+        } else {
+            chaoshiInfo = chaoshi;
+            chaoshiName = chaoshiInfo.name;
+        }
+
+        return _exec('cd ' + chaoshiName, '进入仓库')
+            .then((res) => {
+                const data = fs.readFileSync(chaoshiName + "/package.json", 'utf-8');
+                const pkg = JSON.parse(data);
+
+                if (typeof chaoshi == 'string') {
+                    chaoshiVersion = pkg.version = version.updateVersion(pkg.version);
+                } else {
+                    chaoshiVersion = pkg.version = chaoshiInfo.version;
+                }
+
+                return _exec('cd ' + chaoshiName + ' && git tag publish/' + chaoshiVersion, '生成tag');
+            })
+            .then((res) => {
+                return _exec('cd ' + chaoshiName + ' && git push origin publish/' + chaoshiVersion, '发布tag');
+            })
+
+    },
+
+
     updateSvnload: function(chaoshi, muiInfo, svnBranch) {
         var chaoshiVersion, chaoshiName, chaoshiInfo;
         if (typeof chaoshi == 'string') {
@@ -77,7 +106,17 @@ module.exports = {
         return Map(gitList, (chaoshi, index) => {
             return this.updateSvnload(chaoshi, muiInfo, svnBranch)
         }, concurrency).then((res) => {
-            console.log('－－－－－－－－－流程结束－－－－－－－－');
+            console.log('－－－－－－－－－推送流程结束－－－－－－－－');
+        });
+
+    },
+
+    publishAll: function(gitList, concurrency) {
+        var concurrency = concurrency || 3;
+        return Map(gitList, (chaoshi, index) => {
+            return this.pushPublish(chaoshi);
+        }, concurrency).then((res) => {
+            console.log('－－－－－－－－－发布流程结束－－－－－－－－');
         });
 
     }

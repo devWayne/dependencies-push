@@ -7,5 +7,5 @@ const Workflow = require('../workflow');
 
 
 var data = Parse('pushConfig.json');
-Workflow.updateAllSvn(data.gitList,data.muiInfo,data.svnBranch);
+Workflow.publishAll(data.gitList);
 
