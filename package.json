@@ -1,6 +1,6 @@
 {
   "name": "dppush",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -19,11 +19,9 @@
     "url": "https://github.com/devWayne/dependencies-push/issues"
   },
   "homepage": "https://github.com/devWayne/dependencies-push#readme",
-  "devDependencies": {
-    "nl-clilog": "~1.1.1"
-  },
   "dependencies": {
     "log4js": "~0.6.36",
+    "nl-clilog": "~1.1.1",
     "minimist": "~1.2.0",
     "promise.map": "0.0.2"
   }

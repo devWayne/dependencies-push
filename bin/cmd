@@ -14,7 +14,6 @@ var argv = require("minimist")(process.argv.slice(2), {
 
 var data = Parse('pushConfig.json');
 
-console.log(argv.publish);
 if (argv.publish) {
     Workflow.publishAll(data.gitList);
 } else {
