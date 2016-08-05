@@ -9,6 +9,9 @@ $sudo tnpm i -g dppush
 
 ## 使用方式
 
+
+### 升级组件
+
 - 新建一个目录，用于存放升级过程中的仓库，配置和日志文件
 - 编写配置文件，并保存为`pushConfig.json`
 
@@ -16,16 +19,16 @@ $sudo tnpm i -g dppush
   
 ```
 {
-    "gitList": ["chaoshi-history", 
+    "gitList": ["chaoshi-xxx", 
     {
-        "name": "chaoshi-liangfan",
+        "name": "chaoshi-abc",
         "version": "3.0.1"
     }],
 
     /*
      * 单个组件升级
     "muiInfo": {
-        "name": "mui/chaoshi-base",
+        "name": "mui/chaoshi-mod1",
         "version": "4.2.34"
     },
     */
@@ -34,15 +37,15 @@ $sudo tnpm i -g dppush
      * 组件列表升级
      * /
     "muiInfo": [{
-        "name": "mui/chaoshi-base",
+        "name": "mui/chaoshi-mod2",
         "version": "4.2.39"
     }, {
-        "name": "mui/crossimage",
+        "name": "mui/mod3",
         "version": "4.0.22"
     }],
 
 
-    "svnBranch": "http://svn.app.taobao.net/repos/tmallwap/branches/20160606_695855_gulptest_1/"
+    "svnBranch": "http://xxxx/"
 }
 ```
 
@@ -50,6 +53,11 @@ $sudo tnpm i -g dppush
 - 验证方式：
   - 直接打开配置文件中的`svnBranch`，找到对应的seed文件进行验证
   - 打开当前目录下的`stdout.log`查看结构结果
+  
+### 发布
+
+- 执行`dppush -p`,
+
   
 ## 配置文件详解
 
