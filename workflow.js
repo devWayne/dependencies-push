@@ -26,7 +26,7 @@ module.exports = {
                 const pkg = JSON.parse(data);
 
                 if (typeof chaoshi == 'string') {
-                    chaoshiVersion = pkg.version = version.updateVersion(pkg.version);
+                    chaoshiVersion = pkg.version;
                 } else {
                     chaoshiVersion = pkg.version = chaoshiInfo.version;
                 }
