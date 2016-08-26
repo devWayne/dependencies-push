@@ -20,21 +20,25 @@ module.exports = {
             chaoshiName = chaoshiInfo.name;
         }
 
-        return _exec('cd ' + chaoshiName, '进入仓库')
-            .then((res) => {
-                const data = fs.readFileSync(chaoshiName + "/package.json", 'utf-8');
-                const pkg = JSON.parse(data);
 
-                if (typeof chaoshi == 'string') {
-                    chaoshiVersion = pkg.version;
-                } else {
-                    chaoshiVersion = pkg.version = chaoshiInfo.version;
-                }
+        const data = fs.readFileSync(chaoshiName + "/package.json", 'utf-8');
+        const pkg = JSON.parse(data);
 
-                return _exec('cd ' + chaoshiName + ' && git tag publish/' + chaoshiVersion, '生成tag');
+        if (typeof chaoshi == 'string') {
+            chaoshiVersion = pkg.version;
+        } else {
+            chaoshiVersion = pkg.version = chaoshiInfo.version;
+        }
+
+        return _exec('git tag publish/' + chaoshiVersion, {
+                cwd: chaoshiName,
+                comment: '生成tag'
             })
             .then((res) => {
-                return _exec('cd ' + chaoshiName + ' && git push origin publish/' + chaoshiVersion, '发布tag');
+                return _exec('git push origin publish/' + chaoshiVersion, {
+                    cwd: chaoshiName,
+                    comment: '发布tag'
+                });
             })
 
     },
@@ -48,9 +52,14 @@ module.exports = {
             chaoshiInfo = chaoshi;
             chaoshiName = chaoshiInfo.name;
         }
-        return _exec('git clone git@gitlab.alibaba-inc.com:tm/' + chaoshiName + '.git', 'clone ' + chaoshiName + '仓库')
+        return _exec('git clone git@gitlab.alibaba-inc.com:tm/' + chaoshiName + '.git', {
+                comment: 'clone ' + chaoshiName + '仓库'
+            })
             .then((res) => {
-                return _exec('cd ' + chaoshiName + ' && tnpm i', '安装tnpm');
+                return _exec('tnpm i --cache-min 99', {
+                    cwd: chaoshiName,
+                    comment: '安装依赖'
+                });
             })
             .then((res) => {
                 const data = fs.readFileSync(chaoshiName + "/package.json", 'utf-8');
@@ -84,16 +93,28 @@ module.exports = {
                 return pkg;
             })
             .then((res) => {
-                return _exec('cd ' + chaoshiName + ' && git checkout -b daily/' + chaoshiVersion, '新建分支');
+                return _exec('git checkout -b daily/' + chaoshiVersion, {
+                    cwd: chaoshiName,
+                    comment: '新建分支'
+                })
             })
             .then((res) => {
-                return _exec('cd ' + chaoshiName + ' && gulp svnload', '执行构建操作');
+                return _exec('gulp svnload',{
+                    cwd: chaoshiName,
+                    comment: '执行构建操作'
+                });
             })
             .then((res) => {
-                return _exec('cd ' + chaoshiName + ' && git add --a && git commit -m updateVersion', '提交git commit');
+                return _exec('git add --a && git commit -m updateVersion',{
+                    cwd: chaoshiName,
+                    comment: '提交git commit'
+                });
             })
             .then((res) => {
-                return _exec('cd ' + chaoshiName + ' && git push origin daily/' + chaoshiVersion, '提交git commit');
+                return _exec('git push origin daily/' + chaoshiVersion, {
+                    cwd: chaoshiName,
+                    comment: '提交git commit'
+                });
             })
             .catch((e) => {
                 console.log(e);

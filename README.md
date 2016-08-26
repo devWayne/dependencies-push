@@ -25,17 +25,20 @@ $sudo tnpm i -g dppush
         "version": "3.0.1"
     }],
 
+
     /*
      * 单个组件升级
+     */
+
     "muiInfo": {
         "name": "mui/chaoshi-mod1",
         "version": "4.2.34"
     },
-    */
 
     /*
      * 组件列表升级
      * /
+
     "muiInfo": [{
         "name": "mui/chaoshi-mod2",
         "version": "4.2.39"
@@ -68,5 +71,7 @@ $sudo tnpm i -g dppush
 
 
 ## TodoList
-- `muiInfo`支持数组，同时可升级多个组件
-- 纵向依赖分析，组件升升级
+- `muiInfo`支持数组，同时可升级多个组件[已完成]
+- 自动识别最新版本号
+- `node_modules`安装时候进行缓存
+- 纵向依赖分析，组件升级
