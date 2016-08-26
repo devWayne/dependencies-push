@@ -21,8 +21,9 @@
   "homepage": "https://github.com/devWayne/dependencies-push#readme",
   "dependencies": {
     "log4js": "~0.6.36",
-    "nl-clilog": "~1.1.1",
     "minimist": "~1.2.0",
+    "nl-clilog": "~1.1.1",
+    "node-fetch": "~1.6.0",
     "promise.map": "0.0.2"
   }
 }

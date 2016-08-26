@@ -68,44 +68,50 @@ module.exports = {
                 /**
                  * 修改频道页版本号和svn路径
                  */
-                if (typeof chaoshi == 'string') {
-                    chaoshiVersion = pkg.version = version.updateVersion(pkg.version);
-                } else {
-                    chaoshiVersion = pkg.version = chaoshiInfo.version;
-                }
-                pkg.svnBranch = svnBranch;
+                return version.getVersion(pkg.version, 'tm/' + chaoshiName)
+                    .then(resVersion => {
+                        if (typeof chaoshi == 'string') {
 
-                /**
-                 * 判断修改的mui组件是否是一个数组列表
-                 */
-                if (muiInfo.length) {
-                    muiInfo.forEach((muiItem, idx) => {
-                        if (pkg.feDependencies[muiItem.name]) {
-                            pkg.feDependencies[muiItem.name] = muiItem.version;
+                            chaoshiVersion = pkg.version = version.updateVersion(resVersion);
+                            console.log('升级版本: '+chaoshiVersion);
+                        } else {
+                            chaoshiVersion = pkg.version = chaoshiInfo.version;
                         }
-                    });
-                } else {
-                    if (pkg.feDependencies[muiInfo.name]) {
-                        pkg.feDependencies[muiInfo.name] = muiInfo.version;
-                    }
-                }
-                fs.writeFile(chaoshiName + "/package.json", format(JSON.stringify(pkg)));
-                return pkg;
+
+                        pkg.svnBranch = svnBranch;
+
+                        /**
+                         * 判断修改的mui组件是否是一个数组列表
+                         */
+                        if (muiInfo.length) {
+                            muiInfo.forEach((muiItem, idx) => {
+                                if (pkg.feDependencies[muiItem.name]) {
+                                    pkg.feDependencies[muiItem.name] = muiItem.version;
+                                }
+                            });
+                        } else {
+                            if (pkg.feDependencies[muiInfo.name]) {
+                                pkg.feDependencies[muiInfo.name] = muiInfo.version;
+                            }
+                        }
+                        fs.writeFile(chaoshiName + "/package.json", format(JSON.stringify(pkg)));
+                        return pkg;
+                    })
             })
-            .then((res) => {
+           .then((res) => {
                 return _exec('git checkout -b daily/' + chaoshiVersion, {
                     cwd: chaoshiName,
                     comment: '新建分支'
                 })
             })
             .then((res) => {
-                return _exec('gulp svnload',{
+                return _exec('gulp svnload', {
                     cwd: chaoshiName,
                     comment: '执行构建操作'
                 });
             })
             .then((res) => {
-                return _exec('git add --a && git commit -m updateVersion',{
+                return _exec('git add --a && git commit -m updateVersion', {
                     cwd: chaoshiName,
                     comment: '提交git commit'
                 });
