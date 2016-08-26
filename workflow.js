@@ -5,7 +5,9 @@ const fs = require('fs'),
     _exec = require('./lib/cli'),
     format = require('./lib/format'),
     version = require('./lib/version');
+const Parse = require('./lib/parse');
 
+const Data = Parse('pushConfig.json');
 
 const Map = require('promise.map');
 
@@ -52,7 +54,7 @@ module.exports = {
             chaoshiInfo = chaoshi;
             chaoshiName = chaoshiInfo.name;
         }
-        return _exec('git clone git@gitlab.alibaba-inc.com:tm/' + chaoshiName + '.git', {
+        return _exec('git clone git@'+Data.gitlab+':tm/' + chaoshiName + '.git', {
                 comment: 'clone ' + chaoshiName + '仓库'
             })
             .then((res) => {
