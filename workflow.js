@@ -8,7 +8,7 @@ const fs = require('fs'),
 const Parse = require('./lib/parse');
 
 const Data = Parse('pushConfig.json');
-
+const Log = require('nl-clilog');
 const Map = require('promise.map');
 
 module.exports = {
@@ -73,9 +73,9 @@ module.exports = {
                 return version.getVersion(pkg.version, 'tm/' + chaoshiName)
                     .then(resVersion => {
                         if (typeof chaoshi == 'string') {
-
+                            Log.debug(chaoshiName+'仓库最新版本为: '+resVersion);
                             chaoshiVersion = pkg.version = version.updateVersion(resVersion);
-                            console.log('升级版本: '+chaoshiVersion);
+                            Log.debug('升级版本后，当前版本为: '+chaoshiVersion);
                         } else {
                             chaoshiVersion = pkg.version = chaoshiInfo.version;
                         }
